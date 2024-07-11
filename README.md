@@ -1,67 +1,46 @@
-# DominicanPy
-En este espacio se sube el código creado para el grupo 
-
-Se debe agregar toda la documentación que ustedes consideren pertinente para la compresión de los modelos usados, la ejecución del código y los resultados obtenidos. 
-Puden, si desean, agregar imágenes o resultados obtenidos. 
-
-Recuerden que este readme es su puerta de entrada para su proyecto. 
-
-Un ejemplo puede ser: 
-# Nombre del Proyecto
-
-Breve descripción del proyecto.
-
-## Tabla de contenidos
-
-1. [Nombre](#Nombre)
-2. [Descripción](#descripción)
-3. [Arquitectura](#Arquitectura)
-4. [Proceso](#Proceso)
-5. [Funcionalidades](#Funcionalidades)
-6. [Estado del proyecto](#EstadoDelProyecto)
-7. [Agradecimientos](#Agradecimientos)
+# VitaPredict
+Calcula la Esperanza de Vida 
 
 
-* Nombre del proyecto
+Mejora la velocidad de respuesta y el consumo de recursos aprox 40% de la version 1.0
 
-* Breve descripción del proyecto -> Alguna imagen o gif que muestre el proyecto
+Primeramente agregando mas recomendaciones personalizadas , teniendo en cuenta los datos del usuario agregando igual una barra de comentarios donde el usuario puede agregar manualmente mejorar o recomendaciones para la fase beta tenemos que probar y retroalimentar el programa , manda un archivo txt donde lo almacenara en descarga y podrás visualizar o imprimir los datos .
 
-* Arquitectura del proyecto + imagen
+Arquitectura:
 
-* Proceso de desarrollo:
+![alt text](image.png)
 
--Fuente del dataset
--Limpieza de datos (img que lo valide)
--Manejo excepciones/control errores
--¿Qué modelo de Machine Learning están usando?
--Estadísticos (Valores, gráficos, …)
--Métrica(s) de evaluación del modelo
+Proceso:
 
-* Funcionalidades extra:
+-Primeros conseguimos un dataset en internet sobre personas que solicitaban seguros en US y nos informamos de que datos eran relvantes y como estos influian en nuestro target (la esperanza de vida)
 
-Ejem 1: Implementación de chatbot
-- Tecnología/Herramientas usadas (Librería, Framework, …)
-- Arquitectura (img)
-- Indicar fuente del dataset
-- Limpieza de datos (ejem: se usó PLN + img que lo validen)
-- Manejo excepciones/control errores
-- En caso de usar un modelo de ML indicar ¿Qué modelo de Machine Learning están usando?
-- Estadísticos (Valores, gráficos, …)
-- Métrica(s) de evaluación del modelo
+![alt text](image-1.png)
 
-Ejem 2: Integración del proyecto en una pág web
-- Tecnología/Herramientas usadas …
-- Arquitectura (img)
+-Luego hicimos la limpieza de datos y creacion de columnas calculadas apartir de los datos conseguidos
 
-Ejem 3: Integración del proyecto en un canal WhatsApp, Discord, Telegram, Correo, …
-- Tecnología/Herramientas usadas …
-- Arquitectura (img)
+![alt text](image-2.png)
 
-Ejem 4: Desarrollo de interfaz gráfica de usuario
-- Tecnología/Herramientas usadas …
-- Arquitectura (img)
+-Nuestro control de excepciones sera enfocado a la parte de la api aun no terminada
 
-Ejem …: …
-- Tecnología/Herramientas usadas …
+-En nuestro caso usamos un modelo de regresion por el comportamiento de los datos que tienen una clara correlacion de pearson
 
-#s
+-Estadisticos:
+![alt text](expectativa_vida_diabetes.png)
+![alt text](expectativa_vida_fumadores.png)
+![alt text](expectativa_vida_peso.png)
+![alt text](promedio_bmi_por_edad_intervalos.png)
+
+-Nuestra metrica de evaluacion fue la precision del modelo
+
+Funcionalidades extras:
+
+-Un front con interfaz de usuario
+-Modulo de recomendacion en base a los datos del paciente
+-Modulo de entrega de las recomendaciones por correo
+
+
+Arquitectura del projecto:
+
+primero tenemos un modulo llamado main que es el que se deve llamar mediante el siguiente comando para subir el servidor: uvicorn Project.Back.main:app --reload. Este modulo es el que contiene el controlador y utiliza un modulo llamado "service"
+
+service: service es un modulo que simula un servicio de una arquitectura en capas. Este se encarga de generar lo que el controlador debe devolver. Para esto utiliza otros modulos aledaños como "predictor_model" que es el encargado de comunicarse con el modelo y devolver la prediccion, "recomendator" que es el encargado de generar las recomendaciones y advertencias y utiliza una clase llamada response_user que hereda de pydantic el "BaseModel" para devolverlo por el controlador
